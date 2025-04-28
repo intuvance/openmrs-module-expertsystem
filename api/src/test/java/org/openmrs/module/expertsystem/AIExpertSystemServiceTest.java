@@ -8,7 +8,7 @@
  * graphic logo is a trademark of OpenMRS Inc.
  */
 
-package org.openmrs.module.expertsystem.api;
+package org.openmrs.module.expertsystem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openmrs.User;
 import org.openmrs.api.UserService;
-import org.openmrs.module.expertsystem.Item;
 import org.openmrs.module.expertsystem.api.dao.AIExpertSystemDao;
 import org.openmrs.module.expertsystem.api.impl.AIExpertSystemServiceImpl;
 import static org.mockito.Mockito.*;

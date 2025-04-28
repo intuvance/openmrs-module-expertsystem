@@ -13,7 +13,7 @@
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>A.I Expert System </name>
-	<description>An OpenMRS module that uses Artificial Intelligence (A.I) to mimic the judgment and problem-solving abilities of a human expert in the use of digital tools, and electronic platforms to enhance healthcare delivery, improve patient care, and ultimately improve health outcomes.</description>
+	<description>Uses Artificial Intelligence (A.I) to mimic the problem-solving abilities of a human expert in the use of digital tools to enhance healthcare delivery and improve patient care.</description>
 
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
@@ -52,14 +52,83 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Importing versions from refapp distro -->
-            <dependency>
-                <groupId>org.openmrs.distro</groupId>
-                <artifactId>referenceapplication</artifactId>
-                <version>2.4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junitVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockitoVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-core</artifactId>
+				<version>${powermockVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>legacyui-omod</artifactId>
+				<version>${legacyUiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombokVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.api</groupId>
+				<artifactId>openmrs-api</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.api</groupId>
+				<artifactId>openmrs-api</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.web</groupId>
+				<artifactId>openmrs-web</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.test</groupId>
+				<artifactId>openmrs-test</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>pom</type>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>webservices.rest-omod</artifactId>
+				<version>${webservices.restModuleVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>webservices.rest-omod-common</artifactId>
+				<version>${webservices.restModuleVersion}</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -69,17 +138,21 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.1</version>
+					<version>${mavenCompilerPluginVersion}</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.1.2</version>
+					<version>${mavenDependencyPluginVersion}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.1.2</version>
+					<version>${mavenSurefirePluginVersion}</version>
 					<configuration>
 						<runOrder>alphabetical</runOrder>
 					</configuration>
@@ -87,13 +160,13 @@
 				<plugin>
 					<groupId>org.openmrs.maven.plugins</groupId>
 					<artifactId>maven-openmrs-plugin</artifactId>
-					<version>1.0.1</version>
+					<version>${mavenOpenmrsPluginVersion}</version>
 				</plugin>
 				<!-- NB must be declared *before* the license-maven-plugin -->
 				<plugin>
 					<groupId>org.commonjava.maven.plugins</groupId>
 					<artifactId>directory-maven-plugin</artifactId>
-					<version>1.0</version>
+					<version>${directoryMavenPluginVersion}</version>
 					<executions>
 						<execution>
 							<id>directories</id>
@@ -102,7 +175,7 @@
 							</goals>
 							<phase>validate</phase>
 							<configuration>
-								<property>main.basedir</property>
+								<property>${project.basedir}</property>
 							</configuration>
 						</execution>
 					</executions>
@@ -110,7 +183,7 @@
 				<plugin>
 					<groupId>com.mycila</groupId>
 					<artifactId>license-maven-plugin</artifactId>
-					<version>4.6</version>
+					<version>${licenseMavenPluginVersion}</version>
 					<configuration>
 						<header>${main.basedir}${file.separator}license-header.txt</header>
 						<headerDefinitions>
@@ -136,8 +209,6 @@
 							<exclude>nbproject/private/</exclude>
 							<exclude>**/README</exclude>
 							<exclude>.vscode/**</exclude>
-							<exclude>src/test/resources/**</exclude>
-							<exclude>src/main/resources/**</exclude>
 						</excludes>
 					</configuration>
 					<executions>
@@ -155,13 +226,13 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>${mavenResourcesPluginVersion}</version>
 				</plugin>
 				<!-- Spotless plugin -->
 				<plugin>
 					<groupId>com.diffplug.spotless</groupId>
 					<artifactId>spotless-maven-plugin</artifactId>
-					<version>2.27.2</version>
+					<version>${spotlessMavenPluginVersion}</version>
 					<configuration>
 						<java>
 							<licenseHeader>
@@ -226,7 +297,26 @@
 	</pluginRepositories>
 
 	<properties>
-		<openmrsPlatformVersion>1.11.6</openmrsPlatformVersion>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+		<lombokVersion>1.18.38</lombokVersion>
+		<legacyUiVersion>1.8.4</legacyUiVersion>
+		<junitVersion>4.13.2</junitVersion>
+		<mockitoVersion>2.23.0</mockitoVersion>
+		<powermockVersion>2.0.9</powermockVersion>
+		<openmrsPlatformVersion>2.5.0</openmrsPlatformVersion>
+		<webservices.restModuleVersion>2.44.0</webservices.restModuleVersion>
+		<mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
+		<mavenDependencyPluginVersion>3.1.2</mavenDependencyPluginVersion>
+		<mavenSurefirePluginVersion>3.1.2</mavenSurefirePluginVersion>
+		<mavenOpenmrsPluginVersion>1.0.1</mavenOpenmrsPluginVersion>
+		<directoryMavenPluginVersion>1.0</directoryMavenPluginVersion>
+		<licenseMavenPluginVersion>4.6</licenseMavenPluginVersion>
+		<mavenResourcesPluginVersion>3.1.0</mavenResourcesPluginVersion>
+		<spotlessMavenPluginVersion>2.27.2</spotlessMavenPluginVersion>
+		<lifecycleMappingVersion>1.0.0</lifecycleMappingVersion>
 		<!--${project.basedir} always defaults to the current module root directory for the submodules -->
 		<main.basedir>${maven.multiModuleProjectDirectory}</main.basedir>
 	</properties>
