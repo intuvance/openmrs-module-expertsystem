@@ -17,6 +17,5 @@ import org.springframework.stereotype.Component;
  */
 @Component("expertsystem.AIExpertSystemConfig")
 public class AIExpertSystemConfig {
-	
-	public final static String MODULE_PRIVILEGE = "A.I Expert System  Privilege";
+	public final static String MODULE_PRIVILEGE = "AI Expert System  Privilege";
 }

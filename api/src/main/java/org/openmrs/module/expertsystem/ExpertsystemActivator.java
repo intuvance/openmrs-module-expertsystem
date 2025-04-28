@@ -10,29 +10,33 @@
 
 package org.openmrs.module.expertsystem;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
+import org.springframework.stereotype.Component;
 
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
  */
-public class AIExpertSystemActivator extends BaseModuleActivator {
-	
-	private Log log = LogFactory.getLog(this.getClass());
-	
-	/**
-	 * @see #started()
-	 */
+
+@SuppressWarnings("ALL")
+@Slf4j
+@Component
+public class ExpertsystemActivator extends BaseModuleActivator {
+
+	public static String getPropertyValue(String property, String defaultValue) {
+		if (System.getProperties().containsKey(property)) {
+			return System.getProperty(property);
+		}
+		return Context.getRuntimeProperties()
+				.getProperty(property, defaultValue);
+	}
+
 	public void started() {
-		log.info("Started A.I Expert System ");
+		log.info("Started AI Expert System module");
 	}
-	
-	/**
-	 * @see #shutdown()
-	 */
+
 	public void shutdown() {
-		log.info("Shutdown A.I Expert System ");
+		log.info("Shutdown AI Expert System module");
 	}
-	
 }

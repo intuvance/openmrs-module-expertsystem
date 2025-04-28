@@ -12,7 +12,7 @@
         <padLines>false</padLines>
     </java_style>
     <xml_style>
-        <firstLine><![CDATA[<!--\n]]></firstLine>
+        <firstLine><![CDATA[<!--]]></firstLine>
         <beforeEachLine>    </beforeEachLine>
         <endLine><![CDATA[-->]]></endLine>
         <afterEachLine> </afterEachLine>
