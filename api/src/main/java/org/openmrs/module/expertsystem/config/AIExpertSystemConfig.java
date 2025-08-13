@@ -21,14 +21,14 @@ import org.springframework.stereotype.Component;
 @Component("expertsystem.AIExpertSystemConfig")
 public class AIExpertSystemConfig {
 	
-	public final static String MODULE_PRIVILEGE = "AI Expert System  Privilege";
-
 	@Bean
 	public ChatModel chatModel() {
 		return OllamaChatModel.builder()
 				.baseUrl("http://localhost:11434") 
 				.modelName("mistral")
 				.temperature(0.7)
+				.logRequests(true)
+				.logResponses(true)
 				.build();
 	}
 }

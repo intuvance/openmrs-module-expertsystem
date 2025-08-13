@@ -13,4 +13,6 @@ package org.openmrs.module.expertsystem;
 public class ExpertSystemConstants {
 	
 	public static final String EXPERT_SYSTEM_MODULE_ID = "expertsystem";
+	
+	public final static String AI_EXPERT_SYSTEM_MODULE_PRIVILEGE = "AI Expert System User";
 }

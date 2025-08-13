@@ -10,10 +10,10 @@
 
 package org.openmrs.module.expertsystem.web.controller;
 
-import dev.langchain4j.model.chat.ChatModel;
 import lombok.extern.slf4j.Slf4j;
-import org.openmrs.api.APIException;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.expertsystem.ExpertSystemConstants;
+import org.openmrs.module.expertsystem.api.AIExpertSystemService;
 import org.openmrs.module.expertsystem.request.PromptRequest;
 import org.openmrs.module.expertsystem.web.ErrorHandler;
 import org.openmrs.module.webservices.rest.web.RestConstants;
@@ -33,22 +33,22 @@ import javax.validation.Valid;
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/" + ExpertSystemConstants.EXPERT_SYSTEM_MODULE_ID)
 public class ExpertSystemRestController extends MainResourceController {
 
-	private final ChatModel chatModel;
-
-	public ExpertSystemRestController(ChatModel chatModel) {
-		this.chatModel =  chatModel;
-	}
+	private final AIExpertSystemService expertSystemService =
+			Context.getService(AIExpertSystemService.class);
 
 	@RequestMapping(value = "/prompt", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<String> prompt(@Valid @RequestBody PromptRequest promptRequest, final BindingResult bindingResult) {
+	public ResponseEntity<String> prompt(
+			@Valid
+			@RequestBody PromptRequest promptRequest,
+			final BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			throw new APIException("An error occurred!" + new ErrorHandler()
-					.getFirstErrorMessage(bindingResult));
+			return new ResponseEntity<>(new ErrorHandler()
+					.getFirstErrorMessage(bindingResult), HttpStatus.BAD_REQUEST);
 		}
 		
-		String result = chatModel.chat(promptRequest
-				.getUserMessage());
+		String result = expertSystemService.chat(promptRequest);
+
 		if (result != null) {
 			log.info("{}", result);
 			return new ResponseEntity<>(result, HttpStatus.OK);

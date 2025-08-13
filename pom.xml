@@ -141,18 +141,6 @@
 				<version>${webservices.restModuleCommonVersion}</version>
 				<scope>provided</scope>
 			</dependency>
-			
-			<dependency>
-				<groupId>dev.langchain4j</groupId>
-				<artifactId>langchain4j</artifactId>
-				<version>${langchain4jVersion}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>dev.langchain4j</groupId>
-				<artifactId>langchain4j-ollama</artifactId>
-				<version>${langchain4jOllamaVersion}</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -340,8 +328,6 @@
 		<licenseMavenPluginVersion>4.6</licenseMavenPluginVersion>
 		<mavenResourcesPluginVersion>3.1.0</mavenResourcesPluginVersion>
 		<spotlessMavenPluginVersion>2.27.2</spotlessMavenPluginVersion>
-		<langchain4jVersion>1.3.0</langchain4jVersion>
-		<langchain4jOllamaVersion>1.3.0</langchain4jOllamaVersion>
 		<referenceapplicationVersion>2.7.0</referenceapplicationVersion>
 		<!--${project.basedir} always defaults to the current module root directory for the submodules -->
 		<main.basedir>${maven.multiModuleProjectDirectory}</main.basedir>

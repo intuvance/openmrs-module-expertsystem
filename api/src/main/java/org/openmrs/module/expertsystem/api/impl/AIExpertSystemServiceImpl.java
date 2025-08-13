@@ -10,45 +10,22 @@
 
 package org.openmrs.module.expertsystem.api.impl;
 
-import org.openmrs.api.APIException;
-import org.openmrs.api.UserService;
+import dev.langchain4j.model.chat.ChatModel;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.expertsystem.Item;
 import org.openmrs.module.expertsystem.api.AIExpertSystemService;
-
-import org.openmrs.module.expertsystem.api.dao.AIExpertSystemDao;
+import org.openmrs.module.expertsystem.request.PromptRequest;
 
 public class AIExpertSystemServiceImpl extends BaseOpenmrsService implements AIExpertSystemService {
-	
-	AIExpertSystemDao dao;
-	
-	UserService userService;
-	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
-	public void setDao(AIExpertSystemDao dao) {
-		this.dao = dao;
-	}
-	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+
+	private final ChatModel chatModel;
+
+	public AIExpertSystemServiceImpl(ChatModel chatModel) {
+		this.chatModel = chatModel;
 	}
 	
 	@Override
-	public Item getItemByUuid(String uuid) throws APIException {
-		return dao.getItemByUuid(uuid);
-	}
-	
-	@Override
-	public Item saveItem(Item item) throws APIException {
-		if (item.getOwner() == null) {
-			item.setOwner(userService.getUser(1));
-		}
-		
-		return dao.saveItem(item);
+	public String chat(PromptRequest promptRequest) {
+		return chatModel.chat(promptRequest
+				.getUserMessage());
 	}
 }
