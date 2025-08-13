@@ -20,7 +20,6 @@
 	<description>${project.parent.description}</description>
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.ExpertsystemActivator</activator>
 	
-	<!-- /Base Module Properties -->
 	<require_version>${openmrsPlatformVersion}</require_version>
 
 	<require_modules>
@@ -33,12 +32,15 @@
 		<class>org.openmrs.module.expertsystem.extension.html.AdminList</class>
 	</extension>
 
+	<require_modules>
+		<require_module version="${webservices.restModuleVersion}">org.openmrs.module.webservices.rest</require_module>
+	</require_modules>
+
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+		<aware_of_module>org.openmrs.module.emrapi</aware_of_module>
 	</aware_of_modules>
 	
-	<!-- Internationalization -->
-	<!-- All message codes should start with @MODULE_ID@.* -->
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
@@ -51,6 +53,5 @@
 		<lang>es</lang>
 		<file>messages_es.properties</file>
 	</messages>
-	<!-- /Internationalization -->
 </module>
 
