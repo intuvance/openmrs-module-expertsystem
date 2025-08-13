@@ -11,7 +11,7 @@
 	<artifactId>expertsystem-omod</artifactId>
 	<packaging>jar</packaging>
 	<name>A.I Expert System  OMOD</name>
-	<description>Omod submodule for A.I Expert System </description>
+	<description>OMOD submodule for A.I Expert System </description>
 
 	<dependencies>
         <dependency>
@@ -96,10 +96,11 @@
 			<artifactId>webservices.rest-omod-common</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

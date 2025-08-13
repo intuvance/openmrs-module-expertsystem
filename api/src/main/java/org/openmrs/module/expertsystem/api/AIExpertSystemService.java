@@ -13,7 +13,7 @@ package org.openmrs.module.expertsystem.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.expertsystem.AIExpertSystemConfig;
+import org.openmrs.module.expertsystem.config.AIExpertSystemConfig;
 import org.openmrs.module.expertsystem.Item;
 import org.springframework.transaction.annotation.Transactional;
 

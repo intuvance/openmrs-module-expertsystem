@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -40,9 +41,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-expertsystem.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-expertsystem.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-expertsystem/</url>
+		<connection>scm:git:https://github.com/intuvance/openmrs-module-expertsystem.git</connection>
+		<developerConnection>scm:git:https://github.com/intuvance/openmrs-module-expertsystem.git</developerConnection>
+		<url>https://github.com/intuvance/openmrs-module-expertsystem</url>
 	</scm>
 
 	<modules>
@@ -52,6 +53,15 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Importing versions from refapp distro -->
+			<dependency>
+				<groupId>org.openmrs.distro</groupId>
+				<artifactId>referenceapplication</artifactId>
+				<version>${referenceapplicationVersion}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -63,12 +73,14 @@
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>${mockitoVersion}</version>
+				<scope>test</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.powermock</groupId>
 				<artifactId>powermock-core</artifactId>
 				<version>${powermockVersion}</version>
+				<scope>test</scope>
 			</dependency>
 
 			<dependency>
@@ -126,8 +138,20 @@
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>webservices.rest-omod-common</artifactId>
-				<version>${webservices.restModuleVersion}</version>
+				<version>${webservices.restModuleCommonVersion}</version>
 				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>dev.langchain4j</groupId>
+				<artifactId>langchain4j</artifactId>
+				<version>${langchain4jVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>dev.langchain4j</groupId>
+				<artifactId>langchain4j-ollama</artifactId>
+				<version>${langchain4jOllamaVersion}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -140,8 +164,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${mavenCompilerPluginVersion}</version>
 					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
+						<release>17</release>
+						<release>17</release>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -280,8 +304,7 @@
 		</repository>
 		<repository>
 			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
+			<name>Central Repository</name>
 			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 	</repositories>
@@ -297,17 +320,18 @@
 	</pluginRepositories>
 
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 		<lombokVersion>1.18.38</lombokVersion>
-		<legacyUiVersion>1.8.4</legacyUiVersion>
+		<legacyUiVersion>1.22.0</legacyUiVersion>
 		<junitVersion>4.13.2</junitVersion>
 		<mockitoVersion>2.23.0</mockitoVersion>
 		<powermockVersion>2.0.9</powermockVersion>
-		<openmrsPlatformVersion>2.5.0</openmrsPlatformVersion>
-		<webservices.restModuleVersion>2.44.0</webservices.restModuleVersion>
+		<openmrsPlatformVersion>2.7.0</openmrsPlatformVersion>
+		<webservices.restModuleVersion>2.50.0</webservices.restModuleVersion>
+		<webservices.restModuleCommonVersion>2.50.0</webservices.restModuleCommonVersion>
 		<mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
 		<mavenDependencyPluginVersion>3.1.2</mavenDependencyPluginVersion>
 		<mavenSurefirePluginVersion>3.1.2</mavenSurefirePluginVersion>
@@ -316,7 +340,9 @@
 		<licenseMavenPluginVersion>4.6</licenseMavenPluginVersion>
 		<mavenResourcesPluginVersion>3.1.0</mavenResourcesPluginVersion>
 		<spotlessMavenPluginVersion>2.27.2</spotlessMavenPluginVersion>
-		<lifecycleMappingVersion>1.0.0</lifecycleMappingVersion>
+		<langchain4jVersion>1.3.0</langchain4jVersion>
+		<langchain4jOllamaVersion>1.3.0</langchain4jOllamaVersion>
+		<referenceapplicationVersion>2.7.0</referenceapplicationVersion>
 		<!--${project.basedir} always defaults to the current module root directory for the submodules -->
 		<main.basedir>${maven.multiModuleProjectDirectory}</main.basedir>
 	</properties>

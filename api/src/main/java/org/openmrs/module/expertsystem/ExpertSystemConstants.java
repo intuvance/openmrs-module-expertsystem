@@ -10,12 +10,7 @@
 
 package org.openmrs.module.expertsystem;
 
-import org.springframework.stereotype.Component;
-
-/**
- * Contains module's config.
- */
-@Component("expertsystem.AIExpertSystemConfig")
-public class AIExpertSystemConfig {
-	public final static String MODULE_PRIVILEGE = "AI Expert System  Privilege";
+public class ExpertSystemConstants {
+	
+	public static final String EXPERT_SYSTEM_MODULE_ID = "expertsystem";
 }
