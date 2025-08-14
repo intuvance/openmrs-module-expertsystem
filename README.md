@@ -90,20 +90,9 @@ mvn license:format
 
 ![Codecov](https://img.shields.io/codecov/c/github/miirochristopher/openmrs-module-expertsystem)
 
-
-
-
-
-
-
-
-
-
-
 ### Authors
 
 - [@miirochristopher](https://github.com/miirochristopher)
-
 
 ## Technology Stack
 
@@ -147,43 +136,34 @@ We use [Testcontainers](https://java.testcontainers.org/) to set up the Ollama s
 
 We import the [Ollama Testcontainers](https://central.sonatype.com/artifact/org.testcontainers/ollama) dependency for Spring Boot and the [Ollama](https://mvnrepository.com/artifact/org.testcontainers/ollama) module of Testcontainers. This dependency provide the necessary classes to spin up an **ephemeral** Docker instance for the `Ollama` service.
 
-We define our **@TestConfiguration** class that defines our Testcontainers.
+We define our **ChatModel** that provides the `chat` method which is the main API to interact with the chat model. 
 
 ```java
-@TestConfiguration(proxyBeanMethods = false)
-class TestcontainersConfiguration {
-    @Bean
-    public OllamaContainer ollamaContainer() {
-        return new OllamaContainer("ollama/ollama:0.6.6");
-    }
-
-    @Bean
-    public DynamicPropertyRegistrar dynamicPropertyRegistrar(OllamaContainer ollamaContainer) {
-        return registry -> {
-            registry.add("spring.ai.ollama.base-url", ollamaContainer::getEndpoint);
-        };
-    }
-}
+ChatModel model = OllamaChatModel.builder()
+    .baseUrl(ollamaBaseUrl(ollama))
+    .modelName(MODEL_NAME)
+    .temperature(0.0)
+    .logRequests(true)
+    .logResponses(true)
+    .build();
 ```
 
 **NOTE:** We specify the *latest stable* version of the Ollama image when creating the **OllamaContainer**.
 
 The quality of our testing ultimately depends on the quality of the evaluation model we use. We choose the current industry standard, the **[bespoke-minicheck model](https://ollama.com/library/bespoke-minicheck)**, which is an `open-source model` specifically trained for evaluation testing by [Bespoke Labs](https://www.bespokelabs.ai/). It ranks highly *( top at the time of writing )* of the [LLM-AggreFact](https://llm-aggrefact.github.io/) leaderboard and only produces a **yes/no** response.
-
-We use the RelevanceEvaluator and FactCheckingEvaluator as follows; `"Assumption"`, assuming that the relevant required beans have already been set.
-
-**RelevanceEvaluator;**
+  
+**Below is a sample test**
 
 ```java
-EvaluationResponse evaluationResponse = relevancyEvaluator.evaluate(evaluationRequest);
-assertThat(evaluationResponse.isPass()).isTrue();
-```
+UserMessage userMessage = UserMessage.from("What is the name of the process by which the body breaks down food?");
+ChatResponse response = model.chat(userMessage);
 
-**FactCheckingEvaluator;**
+AiMessage aiMessage = response.aiMessage();
+assertThat(aiMessage.text()).contains("digestion");
+assertThat(aiMessage.toolExecutionRequests()).isEmpty();
 
-```java 
-EvaluationResponse evaluationResponse = factCheckingEvaluator.evaluate(evaluationRequest);
-assertThat(evaluationResponse.isPass()).isTrue();
+ChatResponseMetadata metadata = response.metadata();
+assertThat(metadata.modelName()).isEqualTo(MODEL_NAME);
 ```
 
 ## Naming Conventions
@@ -199,7 +179,7 @@ All abstract classes should start with Base and not end with Impl. For example, 
 
 ## Deployment
 
-To deploy this module, you need to follow the setps below. 
+To deploy this module, you need to follow the steps below; 
 
 1. Compile the module first, type:
 

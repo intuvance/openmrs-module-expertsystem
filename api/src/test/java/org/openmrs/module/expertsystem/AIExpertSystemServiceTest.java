@@ -54,12 +54,12 @@ public class AIExpertSystemServiceTest extends AbstractOllamaLMInfrastructure {
 	@Test
 	public void chat_should_generate_valid_response() {
 
-		UserMessage userMessage = UserMessage.from("What is the capital of Germany?");
+		UserMessage userMessage = UserMessage.from("What is the name of the process by which the body breaks down food?");
 		ChatResponse response = model.chat(userMessage);
 		
 		AiMessage aiMessage = response.aiMessage();
 		assertThat(aiMessage.text())
-				.contains("Berlin");
+				.contains("digestion");
 		assertThat(aiMessage.toolExecutionRequests()).isEmpty();
 
 		ChatResponseMetadata metadata = response.metadata();
