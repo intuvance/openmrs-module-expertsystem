@@ -34,16 +34,16 @@
 
     <context:component-scan base-package="org.openmrs.module.expertsystem" />
 
-    <!-- Wraps AIExpertSystemService methods in DB transactions and OpenMRS interceptors,
+    <!-- Wraps ExpertSystemService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
-    <bean id="expertsystem.AIExpertSystemService"
+    <bean id="expertSystemService"
             class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref bean="transactionManager" />
         </property>
         <property name="target">
-            <bean class="org.openmrs.module.expertsystem.api.impl.AIExpertSystemServiceImpl">
-                <property name="dao" ref="expertsystem.AIExpertSystemDao" />
+            <bean class="org.openmrs.module.expertsystem.api.impl.ExpertSystemServiceImpl">
+                <property name="dao" ref="expertSystemDao" />
             </bean>
         </property>
         <property name="preInterceptors">
@@ -54,13 +54,13 @@
         </property>
     </bean>
 
-    <!-- Adds AIExpertSystemService to OpenMRS context so it can be accessed
-    calling Context.getService(AIExpertSystemService.class) -->
+    <!-- Adds ExpertSystemService to OpenMRS context so it can be accessed
+    calling Context.getService(ExpertSystemService.class) -->
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.expertsystem.api.AIExpertSystemService</value>
-                <ref bean="expertsystem.AIExpertSystemService" />
+                <value>org.openmrs.module.expertsystem.api.ExpertSystemService</value>
+                <ref bean="expertSystemService" />
             </list>
         </property>
     </bean>

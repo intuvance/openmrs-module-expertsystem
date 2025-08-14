@@ -29,12 +29,12 @@ import org.slf4j.LoggerFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This is a unit test, which verifies logic in AIExpertSystemService. It doesn't extend
+ * This is a unit test, which verifies logic in ExpertSystemService. It doesn't extend
  * BaseModuleContextSensitiveTest, thus it is run without the in-memory DB and Spring context.
  */
-public class AIExpertSystemServiceTest extends AbstractOllamaLMInfrastructure {
+public class ExpertSystemServiceTest extends AbstractOllamaLMInfrastructure {
 
-	private static final Logger log = LoggerFactory.getLogger(AIExpertSystemServiceTest.class);
+	private static final Logger log = LoggerFactory.getLogger(ExpertSystemServiceTest.class);
 
 	@Before
 	public void setupMocks() {
