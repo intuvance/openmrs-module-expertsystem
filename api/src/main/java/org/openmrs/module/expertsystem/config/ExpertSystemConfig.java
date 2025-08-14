@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 /**
  * Contains module's config.
  */
-@Component("expertsystem.AIExpertSystemConfig")
-public class AIExpertSystemConfig {
+@Component("expertSystemConfig")
+public class ExpertSystemConfig {
 	
 	@Bean
 	public ChatModel chatModel() {

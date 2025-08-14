@@ -15,8 +15,8 @@ import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("expertsystem.AIExpertSystemDao")
-public class AIExpertSystemDao {
+@Repository("expertSystemDao")
+public class ExpertSystemDao {
 	
 	@Autowired
 	DbSessionFactory sessionFactory;

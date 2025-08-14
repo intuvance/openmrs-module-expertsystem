@@ -11,18 +11,20 @@
 package org.openmrs.module.expertsystem.api.impl;
 
 import dev.langchain4j.model.chat.ChatModel;
+import lombok.Setter;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.expertsystem.api.AIExpertSystemService;
+import org.openmrs.module.expertsystem.api.ExpertSystemService;
+import org.openmrs.module.expertsystem.api.dao.ExpertSystemDao;
 import org.openmrs.module.expertsystem.request.PromptRequest;
 
-public class AIExpertSystemServiceImpl extends BaseOpenmrsService implements AIExpertSystemService {
+public class ExpertSystemServiceImpl extends BaseOpenmrsService implements ExpertSystemService {
 
-	private final ChatModel chatModel;
+	@Setter
+	ExpertSystemDao dao;
 
-	public AIExpertSystemServiceImpl(ChatModel chatModel) {
-		this.chatModel = chatModel;
-	}
-	
+	@Setter
+	ChatModel chatModel;
+
 	@Override
 	public String chat(PromptRequest promptRequest) {
 		return chatModel.chat(promptRequest

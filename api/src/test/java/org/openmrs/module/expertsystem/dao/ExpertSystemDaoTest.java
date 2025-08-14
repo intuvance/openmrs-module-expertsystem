@@ -21,7 +21,7 @@
 //package org.openmrs.module.expertsystem.dao;
 //
 //import org.openmrs.api.UserService;
-//import org.openmrs.module.expertsystem.api.dao.AIExpertSystemDao;
+//import org.openmrs.module.expertsystem.api.dao.ExpertSystemDao;
 //import org.openmrs.test.BaseModuleContextSensitiveTest;
 //import org.springframework.beans.factory.annotation.Autowired;
 //
@@ -34,7 +34,7 @@
 //public class AIExpertSystemDaoTest extends BaseModuleContextSensitiveTest {
 //
 //	@Autowired
-//	AIExpertSystemDao dao;
+//	ExpertSystemDao dao;
 //	
 //	@Autowired
 //	UserService userService;

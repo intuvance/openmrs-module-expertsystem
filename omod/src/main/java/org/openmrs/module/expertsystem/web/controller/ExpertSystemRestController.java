@@ -11,13 +11,14 @@
 package org.openmrs.module.expertsystem.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.expertsystem.ExpertSystemConstants;
-import org.openmrs.module.expertsystem.api.AIExpertSystemService;
+import org.openmrs.module.expertsystem.api.ExpertSystemService;
 import org.openmrs.module.expertsystem.request.PromptRequest;
 import org.openmrs.module.expertsystem.web.ErrorHandler;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.MainResourceController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,9 +34,10 @@ import javax.validation.Valid;
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/" + ExpertSystemConstants.EXPERT_SYSTEM_MODULE_ID)
 public class ExpertSystemRestController extends MainResourceController {
 
-	private final AIExpertSystemService expertSystemService =
-			Context.getService(AIExpertSystemService.class);
-
+	@Autowired
+	@Qualifier("expertSystemService")
+	private ExpertSystemService expertSystemService;
+	
 	@RequestMapping(value = "/prompt", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<String> prompt(
 			@Valid

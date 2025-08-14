@@ -19,7 +19,7 @@ import org.openmrs.module.expertsystem.request.PromptRequest;
  * The main service of this module, which is exposed for other modules. See
  * moduleApplicationContext.xml on how it is wired up.
  */
-public interface AIExpertSystemService extends OpenmrsService {
+public interface ExpertSystemService extends OpenmrsService {
 
 	@Authorized(ExpertSystemConstants.AI_EXPERT_SYSTEM_MODULE_PRIVILEGE)
 	String chat(PromptRequest promptRequest);
