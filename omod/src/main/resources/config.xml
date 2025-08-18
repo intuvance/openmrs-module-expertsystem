@@ -53,5 +53,44 @@
 		<lang>es</lang>
 		<file>messages_es.properties</file>
 	</messages>
+	
+	<globalProperty>
+		<property>@MODULE_ID@.ollamaBaseUrl</property>
+		<defaultValue>http://localhost:11434</defaultValue>
+		<description>
+			The network address where the Ollama server is running and accessible.
+		</description>
+		<datatype>java.lang.String</datatype>
+	</globalProperty>
+
+	<globalProperty>
+		<property>@MODULE_ID@.ollamaChatModel</property>
+		<defaultValue>meditron</defaultValue>
+		<description>
+			Meditron is adapted from Llama 2 to the medical domain through training on a corpus of medical data, papers and guidelines.
+			It outperforms Llama 2, GPT 3.5 and Flan-PaLM on many medical reasoning tasks.
+		</description>
+		<datatype>java.lang.String</datatype>
+	</globalProperty>
+
+	<globalProperty>
+		<property>@MODULE_ID@.ollamaReasoningModel</property>
+		<defaultValue>deepseek-r1</defaultValue>
+		<description>
+			DeepSeek-R1 is a family of open reasoning models with performance approaching that of leading models, such as O3 and Gemini 2.5 Pro.
+			The model has demonstrated outstanding performance across various benchmark evaluations, including mathematics, programming, and general logic.
+		</description>
+		<datatype>java.lang.String</datatype>
+	</globalProperty>
+
+	<globalProperty>
+		<property>@MODULE_ID@.modelTemperature</property>
+		<defaultValue>0.7</defaultValue>
+		<description>
+			In the context LLMs, temperature refers to a parameter that controls the randomness and creativity of the model's output.
+			It essentially adjusts the probability distribution of the generated words, influencing how likely the model is to choose less predictable, more creative options.
+		</description>
+		<datatype>java.lang.Double</datatype>
+	</globalProperty>
 </module>
 

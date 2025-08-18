@@ -12,6 +12,10 @@ package org.openmrs.module.expertsystem.config;
 
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
+import org.apache.commons.lang3.StringUtils;
+import org.openmrs.api.AdministrationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +24,36 @@ import org.springframework.stereotype.Component;
  */
 @Component("expertSystemConfig")
 public class ExpertSystemConfig {
+
+	@Autowired
+	@Qualifier("adminService")
+	private AdministrationService adminService;
+
+	private String ollamaBaseUrl = System.getenv("OLLAMA_BASE_URL");
 	
+	private String ollamaChatModel = System.getenv("OLLAMA_CHAT_MODEL");
+
+	private String modelTemperature = System.getenv("MODEL_TEMPERATURE");
+
 	@Bean
-	public ChatModel chatModel() {
+	public ChatModel expertSystemChatModel() {
+
+		if (StringUtils.isEmpty(ollamaBaseUrl)) {
+			ollamaBaseUrl = adminService.getGlobalProperty("expertsystem.ollamaBaseUrl");
+		}
+
+		if (StringUtils.isEmpty(ollamaChatModel)) {
+			ollamaChatModel = adminService.getGlobalProperty("expertsystem.ollamaChatModel");
+		}
+		
+		if (StringUtils.isEmpty(modelTemperature)) {
+			modelTemperature = adminService.getGlobalProperty("expertsystem.modelTemperature");
+		}
+		
 		return OllamaChatModel.builder()
-				.baseUrl("http://localhost:11434") 
-				.modelName("mistral")
-				.temperature(0.7)
+				.baseUrl(ollamaBaseUrl)
+				.modelName(ollamaChatModel)
+				.temperature(Double.parseDouble(modelTemperature))
 				.logRequests(true)
 				.logResponses(true)
 				.build();
