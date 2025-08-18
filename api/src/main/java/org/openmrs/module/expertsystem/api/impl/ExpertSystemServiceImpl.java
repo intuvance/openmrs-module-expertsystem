@@ -16,18 +16,19 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.expertsystem.api.ExpertSystemService;
 import org.openmrs.module.expertsystem.api.dao.ExpertSystemDao;
 import org.openmrs.module.expertsystem.request.PromptRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExpertSystemServiceImpl extends BaseOpenmrsService implements ExpertSystemService {
 
 	@Setter
 	ExpertSystemDao dao;
 
-	@Setter
-	ChatModel chatModel;
+	@Autowired
+	ChatModel expertSystemChatModel;
 
 	@Override
 	public String chat(PromptRequest promptRequest) {
-		return chatModel.chat(promptRequest
+		return expertSystemChatModel.chat(promptRequest
 				.getUserMessage());
 	}
 }

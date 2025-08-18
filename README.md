@@ -106,7 +106,16 @@ This module depends on [Ollama](https://ollama.com/) which is an `open-source` t
 
 It simplifies the process of downloading, managing, and executing these models, providing a command-line interface and an `API` for interaction. Ollama enables users to work with `LLMs` without relying on cloud services, offering greater control over data privacy and performance. 
 
-You can [download](https://ollama.com/download), install and configure Ollama for your respective operating system. Alternatively, if you have [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed on your system, follow the Ollama setup instructions in this companion [repository](https://github.com/miirochristopher/ollama-expertsystem)'s `README`. 
+You can [download](https://ollama.com/download), install and configure Ollama for your respective operating system. Alternatively, if you have [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed on your system, follow the Ollama setup instructions in this companion [repository](https://github.com/intuvance/ollama-expertsystem)'s `README`. 
+
+### Models and parameters
+The Ollama models are configurable via `global properties` or `environment variables` for `Docker Compose` users. The module ships with a couple of default models, these include;
+1. [deepseek-r1](https://ollama.com/library/deepseek-r1) A family of open reasoning models with performance approaching that of leading models, such as `Gemini 2.5 Pro`. It is the module's default reasoning model, 
+2. [meditron](https://ollama.com/library/meditron) An open source medical `LLM` adapted from `Llama 2` to the medical domain. It serves as the module's default chat model, 
+3. [tinydolphin](https://ollama.com/library/tinydolphin) An experimental model from training the TinyLlama model used in some tests and,
+4. [bespoke-minicheck](https://ollama.com/library/bespoke-minicheck) A state-of-the-art fact-checking model developed by Bespoke Labs used for testing. 
+
+The model temperature (parameter that controls the randomness and creativity of the model's output) is also configurable via `global properties` or `environment variables`.   
 
 ### Benefits of using Ollama:
 1. **Privacy and Control:** Users maintain full control over their data by running models locally. 
@@ -114,7 +123,6 @@ You can [download](https://ollama.com/download), install and configure Ollama fo
 3. **Offline Access:** Ollama allows users to work with `LLMs` even without an internet connection. 
 4. **Customization:** Users can customize models through *Modelfiles*, tailoring them to specific needs. 
 5. **Accessibility:** Ollama makes powerful `LLMs` accessible to a wider audience, including those with limited technical expertise. 
-
 
 ## Unit & Integration Testing | Testing LLM Responses
 
@@ -129,12 +137,14 @@ Most of this modules' code is tested with automated unit and integration tests. 
     1. It offers realistic testing environments. 
     2. Isolation between tests, and easy cleanup. 
 
-This ultimately leads to more reliable, reproducible, and efficient testing workflows which when combined with good practice such as using Hamcrest's [assertThat()](https://hamcrest.org/JavaHamcrest/javadoc/2.2/org/hamcrest/MatcherAssert.html#assertThat-T-org.hamcrest.Matcher-) method for more "readable" assertions can guarantee the much-needed reduced development costs, easier maintenance, improved team collaboration, and enhanced reliability.
-These evaluators can leverage other `LLMs` (acting as `"judge"` `LLMs`) to assess the quality of the primary `LLM's` responses against the defined criteria. For instance, an evaluator might compare the generated response to the expected answer, analyze its semantic similarity, or check for specific characteristics like factual accuracy.
+This ultimately leads to more reliable, reproducible, and efficient testing workflows which when combined with good practice such as using [AssertJ's assertThat()](https://assertj.github.io/doc/) method for more "readable/fluent" assertions can guarantee the much-needed easier maintenance, easy readability and enhanced reliability as well as detailed error messages. 
+With these tools and frameworks, tests are easier to write, understand, and debug. AssertJ also offers a wide range of assertion types, including support for newer Java features like lambdas. 
+
+The `LangChain4j` evaluators can leverage other `LLMs` (acting as `"judge"` `LLMs`) to assess the quality of the primary `LLM's` responses against the defined criteria. For instance, an evaluator might compare the generated response to the expected answer, analyze its semantic similarity, or check for specific characteristics like factual accuracy.
 
 We use [Testcontainers](https://java.testcontainers.org/) to set up the Ollama service for our tests, the prerequisite for which is an active [Docker](https://www.docker.com/) instance. 
 
-We import the [Ollama Testcontainers](https://central.sonatype.com/artifact/org.testcontainers/ollama) dependency for Spring Boot and the [Ollama](https://mvnrepository.com/artifact/org.testcontainers/ollama) module of Testcontainers. This dependency provide the necessary classes to spin up an **ephemeral** Docker instance for the `Ollama` service.
+We import the [Ollama Testcontainers](https://central.sonatype.com/artifact/org.testcontainers/ollama) dependency and the [Ollama](https://mvnrepository.com/artifact/org.testcontainers/ollama) module of Testcontainers. This dependency provides the necessary classes to spin up an **ephemeral** Docker instance for the `Ollama` service.
 
 We define our **ChatModel** that provides the `chat` method which is the main API to interact with the chat model. 
 
@@ -198,5 +208,5 @@ mvn openmrs-sdk:run -DserverId=<your_server_id>
 Deploys an artifact (OMOD) to an SDK server instance. Run this from the module's root directory, it will prompt to deploy the project.
 
 ```bash
-openmrs-sdk:deploy -DserverId=<your_server_id>
+mvn openmrs-sdk:deploy -DserverId=<your_server_id>
 ```
