@@ -10,6 +10,7 @@
 
 package org.openmrs.module.expertsystem.api;
 
+import dev.langchain4j.model.chat.response.ChatResponse;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.expertsystem.ExpertSystemConstants;
@@ -20,7 +21,14 @@ import org.openmrs.module.expertsystem.request.PromptRequest;
  * moduleApplicationContext.xml on how it is wired up.
  */
 public interface ExpertSystemService extends OpenmrsService {
-
+	
+	/**
+	 * Performs a synchronous chat request to Ollama. This will wait for the entire response before
+	 * returning.
+	 * 
+	 * @param promptRequest The request containing the prompt.
+	 * @return The complete response from the model.
+	 */
 	@Authorized(ExpertSystemConstants.AI_EXPERT_SYSTEM_MODULE_PRIVILEGE)
-	String chat(PromptRequest promptRequest);
+	ChatResponse chat(PromptRequest promptRequest);
 }

@@ -27,6 +27,12 @@
 
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-core</artifactId>
+			<version>${langchain4jVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-ollama</artifactId>
 			<version>${langchain4jVersion}</version>
 		</dependency>
@@ -37,46 +43,26 @@
 			<version>${ollamaVersion}</version>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-core</artifactId>
-			<version>${langchain4jVersion}</version>
-			<classifier>tests</classifier>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-http-client</artifactId>
-			<version>${langchain4jVersion}</version>
-			<classifier>tests</classifier>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j</artifactId>
 			<version>${langchain4jVersion}</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j</artifactId>
-			<version>${langchain4jVersion}</version>
-			<classifier>tests</classifier>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>${assertjCoreVersion}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${sl4jVersion}</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 	
@@ -92,5 +78,6 @@
 		<langchain4jVersion>1.3.0</langchain4jVersion>
 		<ollamaVersion>1.21.3</ollamaVersion>
 		<assertjCoreVersion>3.27.4</assertjCoreVersion>
+		<sl4jVersion>1.7.36</sl4jVersion>
 	</properties>
 </project>

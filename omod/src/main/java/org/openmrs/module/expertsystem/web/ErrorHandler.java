@@ -20,10 +20,9 @@ public class ErrorHandler {
 	public String getFirstErrorMessage(BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
-
+			
 			if (!allErrors.isEmpty()) {
-				return allErrors.get(0)
-						.getDefaultMessage();
+				return allErrors.get(0).getDefaultMessage();
 			}
 		}
 		return null;

@@ -18,20 +18,6 @@
             <groupId>org.openmrs.module</groupId>
             <artifactId>expertsystem-api</artifactId>
             <version>1.0.0</version>
-	        <exclusions>
-		        <exclusion>
-			        <groupId>org.slf4j</groupId>
-			        <artifactId>slf4j-api</artifactId>
-		        </exclusion>
-		        <exclusion>
-			        <groupId>org.slf4j</groupId>
-			        <artifactId>jcl-over-slf4j</artifactId>
-		        </exclusion>
-		        <exclusion>
-			        <groupId>org.slf4j</groupId>
-			        <artifactId>slf4j-log4j12</artifactId>
-		        </exclusion>
-	        </exclusions>
         </dependency>
 
 		<dependency>
@@ -45,6 +31,7 @@
 			<groupId>org.openmrs.test</groupId>
 			<artifactId>openmrs-test</artifactId>
 			<type>pom</type>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>

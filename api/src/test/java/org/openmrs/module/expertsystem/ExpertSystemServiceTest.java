@@ -33,45 +33,36 @@ import static org.assertj.core.api.Assertions.assertThat;
  * BaseModuleContextSensitiveTest, thus it is run without the in-memory DB and Spring context.
  */
 public class ExpertSystemServiceTest extends AbstractOllamaLMInfrastructure {
-
+	
 	private static final Logger log = LoggerFactory.getLogger(ExpertSystemServiceTest.class);
-
+	
 	@Before
 	public void setupMocks() {
 		MockitoAnnotations.initMocks(this);
 	}
-
+	
 	static final String MODEL_NAME = OllamaImage.TINY_DOLPHIN_MODEL;
-
-	ChatModel model = OllamaChatModel.builder()
-			.baseUrl(ollamaBaseUrl(ollama))
-			.modelName(MODEL_NAME)
-			.temperature(0.0)
-			.logRequests(true)
-			.logResponses(true)
-			.build();
-
+	
+	ChatModel model = OllamaChatModel.builder().baseUrl(ollamaBaseUrl(ollama)).modelName(MODEL_NAME).temperature(0.0)
+	        .logRequests(true).logResponses(true).build();
+	
 	@Test
 	public void chat_should_generate_valid_response() {
-
+		
 		UserMessage userMessage = UserMessage.from("What is the name of the process by which the body breaks down food?");
 		ChatResponse response = model.chat(userMessage);
 		
 		AiMessage aiMessage = response.aiMessage();
-		assertThat(aiMessage.text())
-				.contains("digestion");
+		assertThat(aiMessage.text()).contains("digestion");
 		assertThat(aiMessage.toolExecutionRequests()).isEmpty();
-
+		
 		ChatResponseMetadata metadata = response.metadata();
-		assertThat(metadata.modelName())
-				.isEqualTo(MODEL_NAME);
+		assertThat(metadata.modelName()).isEqualTo(MODEL_NAME);
 		
 		TokenUsage tokenUsage = metadata.tokenUsage();
 		assertThat(tokenUsage.inputTokenCount()).isPositive();
 		assertThat(tokenUsage.outputTokenCount()).isPositive();
-		assertThat(tokenUsage.totalTokenCount())
-				.isEqualTo(tokenUsage.inputTokenCount() + tokenUsage.outputTokenCount());
-		assertThat(metadata.finishReason())
-				.isEqualTo(FinishReason.STOP);
+		assertThat(tokenUsage.totalTokenCount()).isEqualTo(tokenUsage.inputTokenCount() + tokenUsage.outputTokenCount());
+		assertThat(metadata.finishReason()).isEqualTo(FinishReason.STOP);
 	}
 }

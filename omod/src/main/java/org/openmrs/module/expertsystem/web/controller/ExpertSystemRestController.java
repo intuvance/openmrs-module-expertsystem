@@ -10,6 +10,8 @@
 
 package org.openmrs.module.expertsystem.web.controller;
 
+import dev.langchain4j.exception.TimeoutException;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.openmrs.module.expertsystem.ExpertSystemConstants;
 import org.openmrs.module.expertsystem.api.ExpertSystemService;
@@ -33,7 +35,7 @@ import javax.validation.Valid;
 @Controller(value = "expertSystemRestController")
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/" + ExpertSystemConstants.EXPERT_SYSTEM_MODULE_ID)
 public class ExpertSystemRestController extends MainResourceController {
-
+	
 	@Autowired
 	@Qualifier("expertSystemService")
 	private ExpertSystemService expertSystemService;
@@ -48,15 +50,19 @@ public class ExpertSystemRestController extends MainResourceController {
 			return new ResponseEntity<>(new ErrorHandler()
 					.getFirstErrorMessage(bindingResult), HttpStatus.BAD_REQUEST);
 		}
-		
-		String result = expertSystemService.chat(promptRequest);
 
-		if (result != null) {
-			log.info("{}", result);
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		} else {
-			log.warn("No response, please ensure that Ollama is running locally!");
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		try {
+			ChatResponse result = expertSystemService.chat(promptRequest);
+			if (result != null) {
+				log.info("{}", result);
+				return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+			} else {
+				log.warn("No response, please ensure that Ollama is running locally!");
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+		} catch (TimeoutException error) {
+			log.error("Request to Ollama timed out {}", error.getMessage());
+			return new ResponseEntity<>("The request to the AI service timed out! Please try again later.", HttpStatus.REQUEST_TIMEOUT);
 		}
 	}
 }

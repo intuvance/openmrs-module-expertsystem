@@ -21,10 +21,6 @@
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.ExpertsystemActivator</activator>
 	
 	<require_version>${openmrsPlatformVersion}</require_version>
-
-	<require_modules>
-		<require_module version="${webservices.restModuleVersion}">org.openmrs.module.webservices.rest</require_module>
-	</require_modules>
 	
 	<!-- Extensions -->
 	<extension>
@@ -91,6 +87,24 @@
 			It essentially adjusts the probability distribution of the generated words, influencing how likely the model is to choose less predictable, more creative options.
 		</description>
 		<datatype>java.lang.Double</datatype>
+	</globalProperty>
+
+	<globalProperty>
+		<property>@MODULE_ID@.timeoutDuration</property>
+		<defaultValue>10</defaultValue>
+		<description>
+			LangChain4j request timeout configuration
+		</description>
+		<datatype>java.lang.Long</datatype>
+	</globalProperty>
+
+	<globalProperty>
+		<property>@MODULE_ID@.enableThinking</property>
+		<defaultValue>false</defaultValue>
+		<description>
+			To enable thinking in your Ollama integration with LangChain4j, you need to modify your configuration to set the enableThinking property to true
+		</description>
+		<datatype>java.lang.Boolean</datatype>
 	</globalProperty>
 </module>
 
