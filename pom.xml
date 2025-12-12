@@ -103,15 +103,7 @@
 				<type>jar</type>
 				<scope>provided</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>org.openmrs.api</groupId>
-				<artifactId>openmrs-api</artifactId>
-				<version>${openmrsPlatformVersion}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
-
+			
 			<dependency>
 				<groupId>org.openmrs.web</groupId>
 				<artifactId>openmrs-web</artifactId>
@@ -152,8 +144,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${mavenCompilerPluginVersion}</version>
 					<configuration>
-						<release>17</release>
-						<release>17</release>
+						<source>1.8</source>
+						<target>1.8</target>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -308,8 +300,6 @@
 	</pluginRepositories>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 		<lombokVersion>1.18.38</lombokVersion>

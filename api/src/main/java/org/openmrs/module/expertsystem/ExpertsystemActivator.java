@@ -23,19 +23,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ExpertsystemActivator extends BaseModuleActivator {
-
+	
 	public static String getPropertyValue(String property, String defaultValue) {
 		if (System.getProperties().containsKey(property)) {
 			return System.getProperty(property);
 		}
-		return Context.getRuntimeProperties()
-				.getProperty(property, defaultValue);
+		return Context.getRuntimeProperties().getProperty(property, defaultValue);
 	}
-
+	
 	public void started() {
 		log.info("Started AI Expert System module");
 	}
-
+	
 	public void shutdown() {
 		log.info("Shutdown AI Expert System module");
 	}

@@ -22,26 +22,26 @@ import org.testcontainers.ollama.OllamaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 public class LC4jOllamaContainer extends OllamaContainer {
-
+	
 	private static final Logger log = LoggerFactory.getLogger(LC4jOllamaContainer.class);
-
+	
 	private List<String> models;
-
+	
 	public LC4jOllamaContainer(DockerImageName dockerImageName) {
 		super(dockerImageName);
 		this.models = new ArrayList<>();
 	}
-
+	
 	public LC4jOllamaContainer withModel(String model) {
 		this.models.add(model);
 		return this;
 	}
-
+	
 	public LC4jOllamaContainer withModels(List<String> models) {
 		this.models = models;
 		return this;
 	}
-
+	
 	@Override
 	protected void containerIsStarted(InspectContainerResponse containerInfo) {
 		if (!isNullOrEmpty(models)) {

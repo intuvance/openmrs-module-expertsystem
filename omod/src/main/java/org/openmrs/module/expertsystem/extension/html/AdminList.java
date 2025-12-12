@@ -49,5 +49,4 @@ public class AdminList extends AdministrationSectionExt {
 		
 		return map;
 	}
-	
 }
