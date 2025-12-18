@@ -11,7 +11,11 @@
 package org.openmrs.module.expertsystem.web.websocket;
 
 import lombok.extern.slf4j.Slf4j;
+import org.openmrs.module.expertsystem.ExpertsystemConstants;
 
+import javax.websocket.CloseReason;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -21,12 +25,25 @@ public class ExpertsystemSocket {
 	
 	@OnOpen
 	public void onOpen(Session session) {
-		log.info("WebSocket opened: {}", session.getId());
+		log.info(ExpertsystemConstants.GREEN + "WebSocket OPENED: {}" + ExpertsystemConstants.RESET, session.getId());
 	}
 	
 	@OnMessage
 	public String onMessage(String message, Session session) {
-		log.info("Received: {} from {}", message, session.getId());
-		return "Echo: " + message;
+		log.info(ExpertsystemConstants.MAGENTA + "WebSocket RECEIVED: {} from {}" + ExpertsystemConstants.RESET, message,
+		    session.getId());
+		return message;
+	}
+	
+	@OnClose
+	public void onClose(Session session, CloseReason reason) {
+		log.info(ExpertsystemConstants.GOLD + "WebSocket CLOSED: {} ({})" + ExpertsystemConstants.RESET, session.getId(),
+		    reason);
+	}
+	
+	@OnError
+	public void onError(Session session, Throwable error) {
+		log.error(ExpertsystemConstants.RED + "WebSocket ERROR: {}" + ExpertsystemConstants.RESET,
+		    session != null ? session.getId() : "n/a", error);
 	}
 }
