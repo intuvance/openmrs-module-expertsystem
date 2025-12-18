@@ -14,7 +14,7 @@
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>A.I Expert System </name>
-	<description>Uses Artificial Intelligence (A.I) to mimic the problem-solving abilities of a human expert in the use of digital tools to enhance healthcare delivery and improve patient care.</description>
+	<description>Uses Artificial Intelligence (A.I.) to mimic the problem-solving abilities of a human expert in the use of digital tools to enhance healthcare delivery and improve patient care.</description>
 
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
@@ -307,11 +307,11 @@
 		<junitVersion>4.13.2</junitVersion>
 		<mockitoVersion>2.23.0</mockitoVersion>
 		<powermockVersion>2.0.9</powermockVersion>
-		<openmrsPlatformVersion>2.7.0</openmrsPlatformVersion>
+		<openmrsPlatformVersion>2.7.4</openmrsPlatformVersion>
 		<webservices.restModuleVersion>2.50.0</webservices.restModuleVersion>
 		<webservices.restModuleCommonVersion>2.50.0</webservices.restModuleCommonVersion>
 		<mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
-		<mavenDependencyPluginVersion>3.1.2</mavenDependencyPluginVersion>
+		<mavenDependencyPluginVersion>3.5.0</mavenDependencyPluginVersion>
 		<mavenSurefirePluginVersion>3.1.2</mavenSurefirePluginVersion>
 		<mavenOpenmrsPluginVersion>1.0.1</mavenOpenmrsPluginVersion>
 		<directoryMavenPluginVersion>1.0</directoryMavenPluginVersion>

@@ -89,6 +89,20 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>${javaxWebsocketVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javaxServletApiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -113,5 +127,7 @@
 		<webservices.restOmodCommonVersion>2.9</webservices.restOmodCommonVersion>
 		<adminUiApiVersion>1.6.0</adminUiApiVersion>
 		<adminUiOmodVersion>1.6.0</adminUiOmodVersion>
+		<javaxWebsocketVersion>1.1</javaxWebsocketVersion>
+		<javaxServletApiVersion>4.0.1</javaxServletApiVersion>
 	</properties>
 </project>

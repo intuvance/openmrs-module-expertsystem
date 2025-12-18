@@ -10,13 +10,11 @@
 
 package org.openmrs.module.expertsystem.web.controller;
 
-import dev.langchain4j.exception.TimeoutException;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.openmrs.module.expertsystem.ExpertSystemConstants;
+import org.openmrs.module.expertsystem.ExpertsystemConstants;
 import org.openmrs.module.expertsystem.api.ExpertSystemService;
 import org.openmrs.module.expertsystem.request.PromptRequest;
-import org.openmrs.module.expertsystem.web.ErrorHandler;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.MainResourceController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,36 +31,28 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller(value = "expertSystemRestController")
-@RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/" + ExpertSystemConstants.EXPERT_SYSTEM_MODULE_ID)
+@RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/" + ExpertsystemConstants.EXPERT_SYSTEM_MODULE_ID)
 public class ExpertSystemRestController extends MainResourceController {
 	
 	@Autowired
 	@Qualifier("expertSystemService")
 	private ExpertSystemService expertSystemService;
 	
-	@RequestMapping(value = "/prompt", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<String> prompt(
-			@Valid
-			@RequestBody PromptRequest promptRequest,
-			final BindingResult bindingResult) {
-
+	@RequestMapping(value = "/prompt", method = RequestMethod.POST)
+	public ResponseEntity<String> prompt(@Valid @RequestBody PromptRequest promptRequest, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<>(new ErrorHandler()
-					.getFirstErrorMessage(bindingResult), HttpStatus.BAD_REQUEST);
+			return ResponseEntity.badRequest()
+					.body("Invalid request: " + bindingResult.getAllErrors()
+							.get(0).getDefaultMessage());
 		}
 
 		try {
-			ChatResponse result = expertSystemService.chat(promptRequest);
-			if (result != null) {
-				log.info("{}", result);
-				return new ResponseEntity<>(result.toString(), HttpStatus.OK);
-			} else {
-				log.warn("No response, please ensure that Ollama is running locally!");
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-		} catch (TimeoutException error) {
-			log.error("Request to Ollama timed out {}", error.getMessage());
-			return new ResponseEntity<>("The request to the AI service timed out! Please try again later.", HttpStatus.REQUEST_TIMEOUT);
+			ChatResponse response = expertSystemService.chat(promptRequest);
+			return new ResponseEntity<>(response.toString(), HttpStatus.OK);
+		} catch (Exception error) {
+			log.error("AI request failed!", error);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("AI processing failed! " + error.getMessage());
 		}
 	}
 }

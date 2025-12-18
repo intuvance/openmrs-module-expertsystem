@@ -30,6 +30,8 @@ public class PromptRequest {
 	
 	private Map<String, Object> options;
 	
+	private boolean stream;
+	
 	public PromptRequest() {
 		this.options = new java.util.HashMap<>();
 	}

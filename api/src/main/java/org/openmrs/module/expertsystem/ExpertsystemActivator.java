@@ -13,6 +13,8 @@ package org.openmrs.module.expertsystem;
 import lombok.extern.slf4j.Slf4j;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.DaemonToken;
+import org.openmrs.module.DaemonTokenAware;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,7 +24,9 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("ALL")
 @Slf4j
 @Component
-public class ExpertsystemActivator extends BaseModuleActivator {
+public class ExpertsystemActivator extends BaseModuleActivator implements DaemonTokenAware {
+	
+	private static DaemonToken daemonToken;
 	
 	public static String getPropertyValue(String property, String defaultValue) {
 		if (System.getProperties().containsKey(property)) {
@@ -31,11 +35,21 @@ public class ExpertsystemActivator extends BaseModuleActivator {
 		return Context.getRuntimeProperties().getProperty(property, defaultValue);
 	}
 	
+	public static DaemonToken getDaemonToken() {
+		return daemonToken;
+	}
+	
+	@Override
+	public void setDaemonToken(DaemonToken token) {
+		daemonToken = token;
+	}
+	
+	@Override
 	public void started() {
-		log.info("Started AI Expert System module");
+		log.info(ExpertsystemConstants.GREEN + "Started AI Expert System module" + ExpertsystemConstants.RESET);
 	}
 	
 	public void shutdown() {
-		log.info("Shutdown AI Expert System module");
+		log.info(ExpertsystemConstants.RED + "Shutdown AI Expert System module" + ExpertsystemConstants.RESET);
 	}
 }
