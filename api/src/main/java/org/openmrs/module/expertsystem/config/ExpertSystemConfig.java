@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.module.expertsystem.utils.ConfigurationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -35,24 +36,6 @@ public class ExpertSystemConfig {
 	@Autowired
 	@Qualifier("adminService")
 	private AdministrationService adminService;
-	
-	private static final String DEFAULT_BASE_URL = "http://localhost:11434";
-	
-	public static final int CORE_POOL_SIZE = 2;
-	
-	private static final String DEFAULT_TEMPERATURE = "0.7";
-	
-	public static final int MAXIMUM_POOL_SIZE = 4;
-	
-	private static final String DEFAULT_THINKING = "false";
-	
-	public static final int KEEP_ALIVE_TIME = 90;
-	
-	public static final int QUEUE_CAPACITY = 50;
-	
-	private static final String DEFAULT_MODEL_NAME = "meditron:7b";
-	
-	private static final String DEFAULT_TIMEOUT_MINUTES = "15";
 	
 	/**
 	 * Creates and configures an Ollama ChatModel bean for the expertsystem.
@@ -128,10 +111,14 @@ public class ExpertSystemConfig {
 	 */
 	@Bean(destroyMethod = "shutdown")
 	public ExecutorService expertSystemExecutor() {
-		return new ThreadPoolExecutor(Integer.parseInt(getExecutorConfig("expertsystem.corePoolSize", CORE_POOL_SIZE)),
-		        Integer.parseInt(getExecutorConfig("expertsystem.maximumPoolSize", MAXIMUM_POOL_SIZE)),
-		        Integer.parseInt(getExecutorConfig("expertsystem.keepAliveTime", KEEP_ALIVE_TIME)), TimeUnit.SECONDS,
-		        new LinkedBlockingQueue<>(Integer.parseInt(getExecutorConfig("expertsystem.queueCapacity", QUEUE_CAPACITY))),
+		return new ThreadPoolExecutor(
+		        Integer.parseInt(getExecutorConfig("expertsystem.corePoolSize", ConfigurationUtils.CORE_POOL_SIZE)),
+		        Integer.parseInt(getExecutorConfig("expertsystem.maximumPoolSize", ConfigurationUtils.MAXIMUM_POOL_SIZE)),
+		        Integer.parseInt(
+		            getExecutorConfig("expertsystem.keepAliveTime", ConfigurationUtils.KEEP_ALIVE_TIME_SECONDS)),
+		        TimeUnit.SECONDS,
+		        new LinkedBlockingQueue<>(Integer
+		                .parseInt(getExecutorConfig("expertsystem.queueCapacity", ConfigurationUtils.QUEUE_CAPACITY))),
 		        runnable -> {
 			        Thread thread = new Thread(runnable);
 			        thread.setName("expertsystem-reactor");
@@ -168,7 +155,6 @@ public class ExpertSystemConfig {
 	 *            available
 	 * @return the global property value if found and non-empty, otherwise the string representation
 	 *         of the default value
-	 * @see #getConfigurationValue(String, String, String)
 	 */
 	private String getExecutorConfig(String globalProperty, int defaultValue) {
 		return StringUtils.isNotEmpty(adminService.getGlobalProperty(globalProperty)) ? adminService
@@ -196,49 +182,25 @@ public class ExpertSystemConfig {
 	 * @throws NumberFormatException if temperature or timeout values cannot be parsed as numbers
 	 * @throws IllegalArgumentException if boolean parsing fails for the thinking parameter
 	 * @see ModelConfig
-	 * @see #getConfigurationValue(String, String, String)
+	 * @see ConfigurationUtils#getConfigurationValue(AdministrationService, String, String, String)
 	 */
 	private ModelConfig getModelConfig() {
-		String ollamaBaseUrl = getConfigurationValue("OLLAMA_BASE_URL", "expertsystem.ollamaBaseUrl", DEFAULT_BASE_URL);
-		String ollamaChatModel = getConfigurationValue("OLLAMA_CHAT_MODEL", "expertsystem.ollamaChatModel",
-		    DEFAULT_MODEL_NAME);
-		String modelTemperature = getConfigurationValue("MODEL_TEMPERATURE", "expertsystem.modelTemperature",
-		    DEFAULT_TEMPERATURE);
-		String timeoutDuration = getConfigurationValue("TIMEOUT_DURATION", "expertsystem.timeoutDuration",
-		    DEFAULT_TIMEOUT_MINUTES);
-		String enableThinking = getConfigurationValue("ENABLE_THINKING", "expertsystem.enableThinking", DEFAULT_THINKING);
+		String ollamaBaseUrl = ConfigurationUtils.getConfigurationValue(adminService, "OLLAMA_BASE_URL",
+		    "expertsystem.ollamaBaseUrl", ConfigurationUtils.OllamaDefaults.DEFAULT_BASE_URL);
+		String ollamaChatModel = ConfigurationUtils.getConfigurationValue(adminService, "OLLAMA_CHAT_MODEL",
+		    "expertsystem.ollamaChatModel", ConfigurationUtils.OllamaDefaults.DEFAULT_MODEL_NAME);
+		String modelTemperature = ConfigurationUtils.getConfigurationValue(adminService, "MODEL_TEMPERATURE",
+		    "expertsystem.modelTemperature", ConfigurationUtils.OllamaDefaults.DEFAULT_TEMPERATURE);
+		String timeoutDuration = ConfigurationUtils.getConfigurationValue(adminService, "TIMEOUT_DURATION",
+		    "expertsystem.timeoutDuration", ConfigurationUtils.OllamaDefaults.DEFAULT_TIMEOUT_MINUTES);
+		String enableThinking = ConfigurationUtils.getConfigurationValue(adminService, "ENABLE_THINKING",
+		    "expertsystem.enableThinking", ConfigurationUtils.OllamaDefaults.DEFAULT_THINKING_STATUS);
 		
 		double temperature = Double.parseDouble(modelTemperature);
 		long timeoutMinutes = Long.parseLong(timeoutDuration);
 		boolean think = Boolean.parseBoolean(enableThinking);
 		
 		return new ModelConfig(ollamaBaseUrl, ollamaChatModel, temperature, timeoutMinutes, think);
-	}
-	
-	/**
-	 * Retrieves a configuration value from either environment variables or global properties, with
-	 * a string default fallback.
-	 * <p>
-	 * This method checks for a value in the following priority order:
-	 * <ol>
-	 * <li>Environment variable with the specified name</li>
-	 * <li>Global property from the admin service</li>
-	 * <li>Default string value if neither is available</li>
-	 * </ol>
-	 * <p>
-	 * This provides a flexible configuration mechanism where environment variables take precedence
-	 * over global properties, which in turn take precedence over hardcoded defaults.
-	 * 
-	 * @param envVar the name of the environment variable to check first
-	 * @param globalProperty the name of the global property to check if environment variable is not
-	 *            set
-	 * @param defaultValue the default string value to return if neither environment variable nor
-	 *            global property is available
-	 * @return the configuration value from environment variable, global property, or default string
-	 */
-	private String getConfigurationValue(String envVar, String globalProperty, String defaultValue) {
-		return StringUtils.isNotEmpty(System.getenv(envVar)) ? System.getenv(envVar) : StringUtils.isNotEmpty(adminService
-		        .getGlobalProperty(globalProperty)) ? adminService.getGlobalProperty(globalProperty) : defaultValue;
 	}
 	
 	/**
