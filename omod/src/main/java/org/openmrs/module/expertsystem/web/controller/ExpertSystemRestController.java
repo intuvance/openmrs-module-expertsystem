@@ -12,9 +12,11 @@ package org.openmrs.module.expertsystem.web.controller;
 
 import dev.langchain4j.model.chat.response.ChatResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.module.expertsystem.ExpertsystemConstants;
 import org.openmrs.module.expertsystem.api.ExpertSystemService;
 import org.openmrs.module.expertsystem.request.PromptRequest;
+import org.openmrs.module.expertsystem.utils.ConfigurationUtils;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.MainResourceController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 
@@ -37,6 +41,26 @@ public class ExpertSystemRestController extends MainResourceController {
 	@Autowired
 	@Qualifier("expertSystemService")
 	private ExpertSystemService expertSystemService;
+	
+	@Autowired
+	@Qualifier("adminService")
+	private AdministrationService adminService;
+	
+	@RequestMapping(value = "/models", method = RequestMethod.GET)
+	public ResponseEntity<?> getModels() throws Exception {
+		String ollamaBaseUrl = ConfigurationUtils.getConfigurationValue(adminService, "OLLAMA_BASE_URL",
+		    "expertsystem.ollamaBaseUrl", ConfigurationUtils.OllamaDefaults.DEFAULT_BASE_URL);
+		RestTemplate restTemplate = new RestTemplate();
+		String response;
+		try {
+			response = restTemplate.getForObject(ollamaBaseUrl + "/api/tags", String.class);
+		}
+		catch (RestClientException error) {
+			log.error("Cannot get A.I models! {}", error.getMessage());
+			throw new Exception(error);
+		}
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/prompt", method = RequestMethod.POST)
 	public ResponseEntity<String> prompt(@Valid @RequestBody PromptRequest promptRequest, BindingResult bindingResult) {
