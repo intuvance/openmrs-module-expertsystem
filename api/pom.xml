@@ -58,11 +58,38 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- SLF4J simple logger for tests to remove NOP warnings -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${sl4jVersion}</version>
-			<scope>runtime</scope>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito core -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito inline: required to avoid CGLIB errors on Java 17+ -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- PowerMock modules compatible with Mockito 2+ (for legacy code that uses PowerMock) -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito2</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -84,7 +111,6 @@
 		<langchain4jVersion>1.9.1</langchain4jVersion>
 		<ollamaVersion>1.21.3</ollamaVersion>
 		<assertjCoreVersion>3.27.4</assertjCoreVersion>
-		<sl4jVersion>1.7.36</sl4jVersion>
 		<rxjavaVersion>3.1.8</rxjavaVersion>
 	</properties>
 </project>

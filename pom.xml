@@ -69,6 +69,15 @@
 				<scope>test</scope>
 			</dependency>
 
+			<!-- SLF4J binding for tests -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4jSimpleVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Mockito -->
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
@@ -76,10 +85,26 @@
 				<scope>test</scope>
 			</dependency>
 
+			<!-- PowerMock -->
 			<dependency>
 				<groupId>org.powermock</groupId>
-				<artifactId>powermock-core</artifactId>
+				<artifactId>powermock-module-junit4</artifactId>
 				<version>${powermockVersion}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito2</artifactId>
+				<version>${powermockVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Mockito inline to avoid CGLIB issues -->
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-inline</artifactId>
+				<version>${mockitoVersion}</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -305,11 +330,11 @@
 		<lombokVersion>1.18.38</lombokVersion>
 		<legacyUiVersion>1.22.0</legacyUiVersion>
 		<junitVersion>4.13.2</junitVersion>
-		<mockitoVersion>2.23.0</mockitoVersion>
+		<mockitoVersion>4.11.0</mockitoVersion>
 		<powermockVersion>2.0.9</powermockVersion>
-		<openmrsPlatformVersion>2.7.4</openmrsPlatformVersion>
-		<webservices.restModuleVersion>2.50.0</webservices.restModuleVersion>
-		<webservices.restModuleCommonVersion>2.50.0</webservices.restModuleCommonVersion>
+		<openmrsPlatformVersion>2.8.2</openmrsPlatformVersion>
+		<webservices.restModuleVersion>3.0.0</webservices.restModuleVersion>
+		<webservices.restModuleCommonVersion>3.0.0</webservices.restModuleCommonVersion>
 		<mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
 		<mavenDependencyPluginVersion>3.5.0</mavenDependencyPluginVersion>
 		<mavenSurefirePluginVersion>3.1.2</mavenSurefirePluginVersion>
@@ -319,6 +344,7 @@
 		<mavenResourcesPluginVersion>3.1.0</mavenResourcesPluginVersion>
 		<spotlessMavenPluginVersion>2.27.2</spotlessMavenPluginVersion>
 		<referenceapplicationVersion>2.7.0</referenceapplicationVersion>
+		<slf4jSimpleVersion>1.7.36</slf4jSimpleVersion>
 		<!--${project.basedir} always defaults to the current module root directory for the submodules -->
 		<main.basedir>${maven.multiModuleProjectDirectory}</main.basedir>
 	</properties>
