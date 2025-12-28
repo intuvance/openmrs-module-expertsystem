@@ -29,12 +29,32 @@
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-core</artifactId>
 			<version>${langchain4jVersion}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-ollama</artifactId>
 			<version>${langchain4jVersion}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -49,6 +69,16 @@
 			<artifactId>langchain4j-http-client</artifactId>
 			<version>${langchain4jVersion}</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
@@ -57,13 +87,22 @@
 			<version>${assertjCoreVersion}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- Mockito core -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${sl4jVersion}</version>
-			<scope>runtime</scope>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
 		</dependency>
+
+		<!-- Mockito inline: required to avoid CGLIB errors on Java 17+ -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Logging is provided by OpenMRS platform (SLF4J API only) -->
 
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
@@ -84,7 +123,6 @@
 		<langchain4jVersion>1.9.1</langchain4jVersion>
 		<ollamaVersion>1.21.3</ollamaVersion>
 		<assertjCoreVersion>3.27.4</assertjCoreVersion>
-		<sl4jVersion>1.7.36</sl4jVersion>
 		<rxjavaVersion>3.1.8</rxjavaVersion>
 	</properties>
 </project>
