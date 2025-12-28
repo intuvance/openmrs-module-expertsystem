@@ -53,6 +53,13 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4japiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
 			<!-- Importing versions from refapp distro -->
 			<dependency>
 				<groupId>org.openmrs.distro</groupId>
@@ -68,15 +75,7 @@
 				<version>${junitVersion}</version>
 				<scope>test</scope>
 			</dependency>
-
-			<!-- SLF4J binding for tests -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>${slf4jSimpleVersion}</version>
-				<scope>test</scope>
-			</dependency>
-
+			
 			<!-- Mockito -->
 			<dependency>
 				<groupId>org.mockito</groupId>
@@ -166,13 +165,40 @@
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>${mavenenforcerpluginVersion}</version>
+					<executions>
+						<execution>
+							<id>ban-logging-implementations</id>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+							<configuration>
+								<rules>
+									<bannedDependencies>
+										<excludes>
+											<exclude>org.apache.logging.log4j:log4j-slf4j-impl</exclude>
+											<exclude>org.slf4j:jcl-over-slf4j</exclude>
+											<exclude>ch.qos.logback:logback-classic</exclude>
+										</excludes>
+										<searchTransitive>true</searchTransitive>
+									</bannedDependencies>
+								</rules>
+								<fail>true</fail>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${mavenCompilerPluginVersion}</version>
 					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
+						<release>${java.release}</release>
 					</configuration>
 				</plugin>
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
@@ -325,6 +351,7 @@
 	</pluginRepositories>
 
 	<properties>
+		<java.release>11</java.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 		<lombokVersion>1.18.38</lombokVersion>
@@ -332,7 +359,7 @@
 		<junitVersion>4.13.2</junitVersion>
 		<mockitoVersion>4.11.0</mockitoVersion>
 		<powermockVersion>2.0.9</powermockVersion>
-		<openmrsPlatformVersion>2.8.2</openmrsPlatformVersion>
+		<openmrsPlatformVersion>2.8.0</openmrsPlatformVersion>
 		<webservices.restModuleVersion>3.0.0</webservices.restModuleVersion>
 		<webservices.restModuleCommonVersion>3.0.0</webservices.restModuleCommonVersion>
 		<mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
@@ -343,8 +370,11 @@
 		<licenseMavenPluginVersion>4.6</licenseMavenPluginVersion>
 		<mavenResourcesPluginVersion>3.1.0</mavenResourcesPluginVersion>
 		<spotlessMavenPluginVersion>2.27.2</spotlessMavenPluginVersion>
-		<referenceapplicationVersion>2.7.0</referenceapplicationVersion>
-		<slf4jSimpleVersion>1.7.36</slf4jSimpleVersion>
+		<referenceapplicationVersion>2.8.0</referenceapplicationVersion>
+		<logbackClassicVersion>1.5.6</logbackClassicVersion>
+		<log4jslf4jimplVersion>2.22.1</log4jslf4jimplVersion>
+		<mavenenforcerpluginVersion>3.4.1</mavenenforcerpluginVersion>
+		<slf4japiVersion>1.7.36</slf4japiVersion>
 		<!--${project.basedir} always defaults to the current module root directory for the submodules -->
 		<main.basedir>${maven.multiModuleProjectDirectory}</main.basedir>
 	</properties>

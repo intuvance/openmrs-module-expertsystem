@@ -29,12 +29,32 @@
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-core</artifactId>
 			<version>${langchain4jVersion}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-ollama</artifactId>
 			<version>${langchain4jVersion}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -49,6 +69,16 @@
 			<artifactId>langchain4j-http-client</artifactId>
 			<version>${langchain4jVersion}</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
@@ -57,14 +87,7 @@
 			<version>${assertjCoreVersion}</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- SLF4J simple logger for tests to remove NOP warnings -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>test</scope>
-		</dependency>
-
+		
 		<!-- Mockito core -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -78,19 +101,8 @@
 			<artifactId>mockito-inline</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- PowerMock modules compatible with Mockito 2+ (for legacy code that uses PowerMock) -->
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito2</artifactId>
-			<scope>test</scope>
-		</dependency>
+		
+		<!-- Logging is provided by OpenMRS platform (SLF4J API only) -->
 
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>

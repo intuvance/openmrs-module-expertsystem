@@ -1,7 +1,10 @@
 <!--suppress ALL -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>expertsystem</artifactId>
@@ -10,16 +13,18 @@
 
 	<artifactId>expertsystem-omod</artifactId>
 	<packaging>jar</packaging>
-	<name>A.I Expert System  OMOD</name>
-	<description>OMOD submodule for A.I Expert System </description>
+	<name>A.I Expert System OMOD</name>
+	<description>OMOD submodule for A.I Expert System</description>
 
 	<dependencies>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>expertsystem-api</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+		<!-- Internal API -->
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>expertsystem-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
+		<!-- OpenMRS core web module -->
 		<dependency>
 			<groupId>org.openmrs.web</groupId>
 			<artifactId>openmrs-web</artifactId>
@@ -27,13 +32,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.openmrs.test</groupId>
-			<artifactId>openmrs-test</artifactId>
-			<type>pom</type>
-			<scope>test</scope>
-		</dependency>
-		
+		<!-- OpenMRS admin UI -->
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>adminui-api</artifactId>
@@ -48,52 +47,14 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- SLF4J simple logger for tests to remove NOP warnings -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Mockito core -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Mockito inline: required to avoid CGLIB errors on Java 17+ -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-inline</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- PowerMock modules compatible with Mockito 2+ (for legacy code that uses PowerMock) -->
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito2</artifactId>
-			<scope>test</scope>
-		</dependency>
-
+		<!-- Legacy UI -->
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>legacyui-omod</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Webservices REST modules -->
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>webservices.rest-omod</artifactId>
@@ -105,13 +66,15 @@
 			<artifactId>webservices.rest-omod-common</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
+		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Java EE APIs -->
 		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
@@ -124,6 +87,32 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${javaxServletApiVersion}</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>org.openmrs.test</groupId>
+			<artifactId>openmrs-test</artifactId>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
